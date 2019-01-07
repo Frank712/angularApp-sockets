@@ -26,9 +26,14 @@ export default class Server{
     private listenSockets(){
         console.log('Listen connections - sockets');
         this.io.on('connection', client =>{
-            console.log('New client connect!');
-        //  Listen disconnect event
+            console.log(client.id, " connect");
+            // Config user
+            socket.configUser( client, this.io );
+            // Connect Client
+            socket.connectClient( client );
+            //  Listen disconnect event
             socket.disconnect(client);
+            // Listen messages event
             socket.message(client, this.io);
         });
     }
