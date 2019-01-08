@@ -30,11 +30,13 @@ export default class Server{
             // Config user
             socket.configUser( client, this.io );
             // Connect Client
-            socket.connectClient( client );
+            socket.connectClient( client, this.io );
             //  Listen disconnect event
-            socket.disconnect(client);
+            socket.disconnect(client, this.io);
             // Listen messages event
             socket.message(client, this.io);
+            // Get all users connected
+            socket.getUsers(client, this.io);
         });
     }
 

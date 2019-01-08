@@ -1,5 +1,6 @@
 import { Router, Request, Response } from 'express';
 import Server from "../classes/server";
+import {usersConnect} from "../sockets/sockets";
 
 export const router = Router();
 
@@ -7,7 +8,7 @@ router.get("/messages", ( req: Request, res: Response)=>{
     res.json({
         ok: true,
         message: "All ok!"
-    })
+    });
 });
 
 router.post("/messages", ( req: Request, res: Response)=>{
@@ -45,4 +46,34 @@ router.post("/messages/:id", ( req: Request, res: Response)=>{
         body,
         _from
     })
+});
+
+//  Server to get all the users
+
+router.get('/users', (req:Request, res: Response) => {
+    console.log('Hello from /users REST-Server');
+    const server = Server.instance;
+    server.io.clients( (err: any, clients: string[]) =>{
+        if (err){
+            return res.json({
+                ok: false,
+                message: 'An error has occurred!',
+                err
+            })
+        }
+
+        res.json( {
+            ok: true,
+            clients
+        });
+    });
+});
+
+// get user and names
+
+router.get('/users/detail', (req:Request, res: Response) => {
+    res.json({
+        ok: true,
+        usersConnect: usersConnect.getUserList()
+    });
 });

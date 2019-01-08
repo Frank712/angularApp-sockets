@@ -16,7 +16,7 @@ export class UserList {
 
     public updateName(id: string, name: string){
         for ( let user of this.list ){
-            if( user.id = id ){
+            if( user.id === id ){
                 user.name = name;
                 break;
             }
@@ -27,7 +27,7 @@ export class UserList {
     }
 
     public getUserList(){
-        return this.list;
+        return this.list.filter( user => user.name !== 'without-name' );
     }
 
     public getUser( id: string ){
